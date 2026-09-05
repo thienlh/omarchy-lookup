@@ -1,0 +1,23 @@
+post_install() {
+  cat <<'MSG'
+
+  Download the dictionaries (~12 MB) and build the index — once, per user:
+
+      lookup setup
+
+  Then bind a key in ~/.config/hypr/bindings.lua:
+
+      o.bind("SUPER + ALT + D", "Dictionary", "/usr/bin/lookup-popup")
+
+  Select a word anywhere and press it, or run: lookup <word>
+
+MSG
+}
+
+post_upgrade() {
+  cat <<'MSG'
+
+  If the dictionary format changed, rebuild your index with: lookup build
+
+MSG
+}

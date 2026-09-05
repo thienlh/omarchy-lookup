@@ -1,0 +1,32 @@
+# Maintainer: Thien Hung Le <hey@thien.fun>
+
+pkgname=omarchy-lookup
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="macOS-style dictionary Lookup for Omarchy: select a word, press a key, get Anh-Việt, Việt-Anh and Anh-Nhật definitions"
+arch=('any')
+url="https://github.com/thienlh/omarchy-lookup"
+license=('MIT')
+depends=('python' 'gum' 'wl-clipboard')
+optdepends=(
+  'omarchy: floating popup window and theme integration'
+  'adobe-source-han-sans-jp-fonts: Japanese glyphs for the Anh-Nhật dictionary'
+)
+install="$pkgname.install"
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('34a0c31af7bebd585fc86ab63c212fb49a851d01fdd1025d9d9167f2a84232ee')
+
+check() {
+  cd "$pkgname-$pkgver"
+  python3 -m unittest test_lookup
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  install -Dm755 lookup.py "$pkgdir/usr/bin/lookup"
+  install -Dm755 lookup-popup "$pkgdir/usr/bin/lookup-popup"
+  sed 's|@BIN@|/usr/bin|g' omarchy-lookup.desktop |
+    install -Dm644 /dev/stdin "$pkgdir/usr/share/applications/omarchy-lookup.desktop"
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  install -Dm644 README.md "$pkgdir/usr/share/doc/$pkgname/README.md"
+}

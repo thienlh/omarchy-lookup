@@ -13,6 +13,15 @@ Three offline dictionaries, searched together:
 
 ## Install
 
+From the AUR:
+
+```bash
+omarchy pkg aur add omarchy-lookup   # or: yay -S omarchy-lookup
+lookup setup                         # downloads dictionaries, builds the index
+```
+
+Or from a clone:
+
 ```bash
 git clone https://github.com/thienlh/omarchy-lookup.git
 cd omarchy-lookup

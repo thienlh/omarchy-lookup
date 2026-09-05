@@ -1,0 +1,17 @@
+pkgbase = omarchy-lookup
+	pkgdesc = macOS-style dictionary Lookup for Omarchy: select a word, press a key, get Anh-Việt, Việt-Anh and Anh-Nhật definitions
+	pkgver = 0.1.0
+	pkgrel = 1
+	url = https://github.com/thienlh/omarchy-lookup
+	install = omarchy-lookup.install
+	arch = any
+	license = MIT
+	depends = python
+	depends = gum
+	depends = wl-clipboard
+	optdepends = omarchy: floating popup window and theme integration
+	optdepends = adobe-source-han-sans-jp-fonts: Japanese glyphs for the Anh-Nhật dictionary
+	source = omarchy-lookup-0.1.0.tar.gz::https://github.com/thienlh/omarchy-lookup/archive/refs/tags/v0.1.0.tar.gz
+	sha256sums = 34a0c31af7bebd585fc86ab63c212fb49a851d01fdd1025d9d9167f2a84232ee
+
+pkgname = omarchy-lookup
