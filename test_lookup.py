@@ -340,5 +340,26 @@ class TestBuild(unittest.TestCase):
             self.assertIn("fetch", str(caught.exception))
 
 
+class TestFirstRun(unittest.TestCase):
+    def test_missing_index_prints_the_setup_hint_on_stdout(self):
+        # stdout, not stderr: the popup pipes stdout into the pager and would
+        # otherwise show an empty window on a fresh install.
+        out = io.StringIO()
+        with tempfile.TemporaryDirectory() as tmp:
+            with mock.patch.object(app, "DB", os.path.join(tmp, "absent.db")):
+                with mock.patch.object(sys, "argv", ["lookup", "character"]):
+                    with contextlib.redirect_stdout(out):
+                        app.main()
+        self.assertIn("no dictionary index", out.getvalue())
+        self.assertIn("lookup setup", out.getvalue())
+
+    def test_setup_fetches_then_builds(self):
+        calls = []
+        with mock.patch.object(app, "fetch", lambda: calls.append("fetch")):
+            with mock.patch.object(app, "build", lambda: calls.append("build")):
+                app.setup()
+        self.assertEqual(calls, ["fetch", "build"])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

@@ -68,9 +68,10 @@ mirroring the data.
 ## Development
 
 ```bash
-python3 -m unittest test_lookup   # 45 tests, no network, no fixtures
-lookup fetch                      # re-download dictionaries
-lookup build                      # rebuild the index
+python3 -m unittest test_lookup   # 47 tests, no network, no fixtures
+lookup setup                      # fetch + build, the first-run step
+lookup fetch                      # re-download dictionaries only
+lookup build                      # rebuild the index only
 ```
 
 ## Uninstall

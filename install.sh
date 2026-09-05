@@ -10,8 +10,7 @@ install -Dm755 "$here/lookup-popup" "$bin/lookup-popup"
 sed "s|@BIN@|$bin|g" "$here/omarchy-lookup.desktop" |
   install -Dm644 /dev/stdin "$apps/omarchy-lookup.desktop"
 
-"$bin/lookup" fetch
-"$bin/lookup" build
+"$bin/lookup" setup
 
 case ":$PATH:" in
 *":$bin:"*) ;;

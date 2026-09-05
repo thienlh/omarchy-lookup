@@ -93,6 +93,11 @@ def fetch_tarball(url, target):
         sys.exit(f"archive at {url} did not contain {', '.join(missing)}")
 
 
+def setup():
+    fetch()
+    build()
+
+
 def build():
     os.makedirs(APP_DIR, exist_ok=True)
     tmp = DB + ".tmp"
@@ -232,11 +237,18 @@ def render(rows, suggestions, query, matched, color):
 def main():
     args = [a for a in sys.argv[1:] if a != "--color"]
     color = "--color" in sys.argv[1:]
-    if args and args[0] in ("fetch", "build"):
-        fetch() if args[0] == "fetch" else build()
+    commands = {"fetch": fetch, "build": build, "setup": setup}
+    if args and args[0] in commands:
+        commands[args[0]]()
         return
     if not os.path.exists(DB):
-        sys.exit(f"no index yet — run: {sys.argv[0]} fetch && {sys.argv[0]} build")
+        # Printed on stdout so the popup's pager shows it rather than swallowing it.
+        me = os.path.basename(sys.argv[0])
+        print(
+            f"Chưa có dữ liệu từ điển / no dictionary index yet.\n\n"
+            f"Chạy lệnh này rồi thử lại / run this, then try again:\n\n    {me} setup"
+        )
+        return
     query = clean_query(" ".join(args))
     if not query:
         try:
