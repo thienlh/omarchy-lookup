@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+here="$(dirname "$(readlink -f "$0")")"
+if [[ -f "$here/lookup.py" ]]; then
+  lookup=(python3 "$here/lookup.py") # running from a clone
+else
+  lookup=("$here/lookup") # installed
+fi
+
+if [[ "${1:-}" == "--show" ]]; then
+  shift
+  # Picks up the active theme's gum colors, which the login environment misses
+  # after a theme switch.
+  command -v omarchy-restart-gum >/dev/null && source omarchy-restart-gum
+
+  word="${1:-}"
+  if [[ -z "$word" ]]; then
+    word="$(gum input --prompt "Tra từ / look up: " --placeholder "serendipity")" || exit 0
+  fi
+  [[ -z "$word" ]] && exit 0
+
+  "${lookup[@]}" --color "$word" |
+    gum pager --soft-wrap --show-line-numbers=false \
+      --border-foreground="${BORDER_FOREGROUND:-240}"
+  exit 0
+fi
+
+if ! command -v omarchy-launch-tui >/dev/null; then
+  echo "lookup-popup needs Omarchy; use '${lookup[*]} <word>' instead." >&2
+  exit 1
+fi
+
+selection="$(wl-paste --primary --no-newline 2>/dev/null || true)"
+[[ -z "${selection//[[:space:]]/}" ]] && selection="$(wl-paste --no-newline 2>/dev/null || true)"
+word="$(printf '%s' "$selection" | tr '\n\t' '  ' | sed 's/^ *//; s/ *$//')"
+
+exec omarchy-launch-tui --app-id=TUI.float "$0" --show "$word"

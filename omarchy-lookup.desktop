@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Lookup
+GenericName=Dictionary
+Comment=Anh-Việt, Việt-Anh and Anh-Nhật dictionary lookup
+Exec=@BIN@/lookup-popup
+Terminal=false
+Icon=accessories-dictionary
+StartupNotify=true
+Categories=Utility;Education;Dictionary;
+Keywords=dictionary;translate;vietnamese;japanese;tudien;
