@@ -3,6 +3,9 @@
 macOS-style **Lookup** for [Omarchy](https://omarchy.org). Select a word anywhere, press a
 key, and the definition opens in a native floating TUI popup that follows your theme.
 
+![Looking up "happier": the popup resolves it to "happy" and shows the Vietnamese and
+Japanese entries together](docs/screenshot.png)
+
 Three offline dictionaries, searched together:
 
 | Dictionary | Entries | Direction |
